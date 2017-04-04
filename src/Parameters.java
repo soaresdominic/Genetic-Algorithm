@@ -42,7 +42,7 @@ public class Parameters implements Serializable
     }
  public int[][] GetMatrix()
  	{
-     return P_matrix;
+     	return P_matrix;
  	}
 
 }
