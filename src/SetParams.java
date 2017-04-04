@@ -23,26 +23,12 @@ public class SetParams
 	        int     numGenes    = Integer.parseInt(args[3]);
 	        double  mutFact     = Double.parseDouble(args[4]);
 	        int     numIters    = Integer.parseInt(args[5]);
-	        int[][] matrix 		= createMatrix();
+	        
+	        TSP m = new TSP();
+	        int[][] matrix 		= m.getMatrix();
+	        
 	        GetParams GP        = new GetParams(args[0],numChromesI,numChromes,numGenes,mutFact,numIters,matrix);
 	        //args[0] is the name of the parameter file
 	    }
-	
-	public static int[][] createMatrix() throws FileNotFoundException {
-		int[][] matrix = new int[8][8];
-		Scanner scanner = new Scanner(new File("data.txt"));
-		
-		int x = 0;
-		while(scanner.hasNextLine()){
-			String s = scanner.nextLine();
-			String[] eachNum = s.split(",");
-			for(int i = 0; i < eachNum.length; i++){
-				matrix[x][i] = Integer.parseInt(eachNum[i]);
-			}
-			x+=1;
-		}
-		scanner.close();
-		return matrix;
-	}
 }
 
