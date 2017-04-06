@@ -58,4 +58,152 @@ public class Mate
         }
         return population;
     }
+ 
+ 
+ //tournament Pairing
+ public ArrayList<Chromosome> Crossover(ArrayList<Chromosome> population, int numPairs, ArrayList<Integer> pairs_tour)
+    {
+        for (int j = 0; j < numPairs; j++)
+        {
+            MT_father       =  population.get(pairs_tour.get(MT_posFather)); //get top of tournament pairs
+            MT_mother       =  population.get(pairs_tour.get(MT_posMother));
+            
+            MT_child1       = new Chromosome(MT_numGenes);
+            MT_child2       = new Chromosome(MT_numGenes);
+            Random rnum     = new Random();
+            int crossPoint  = rnum.nextInt(MT_numGenes);
+
+            //left side
+            for (int i = 0; i < crossPoint; i++)
+                {
+                    MT_child1.SetGene(i,MT_father.GetGene(i));
+                    MT_child2.SetGene(i,MT_mother.GetGene(i));
+                }
+    
+            //right side 
+            for (int i = crossPoint; i < MT_numGenes; i++)
+                {
+                    MT_child1.SetGene(i, MT_mother.GetGene(i));
+                    MT_child2.SetGene(i, MT_father.GetGene(i));
+                }
+                
+            population.add(MT_posChild1,MT_child1);
+            population.add(MT_posChild2,MT_child2);
+            
+            MT_posChild1    = MT_posChild1 + 2;
+            MT_posChild2    = MT_posChild2 + 2;
+            MT_posFather    = MT_posFather + 2;
+            MT_posMother    = MT_posMother + 2;
+        }
+        return population;
+    }
+ 
+ 
+ //Simple Top-Down Pairing
+ public ArrayList<Chromosome> DoubleCrossover(ArrayList<Chromosome> population, int numPairs)
+    {
+        for (int j = 0; j < numPairs; j++)
+        {
+            MT_father       =  population.get(MT_posFather); //where top-down pairing is happening
+            MT_mother       =  population.get(MT_posMother);
+            
+            MT_child1       = new Chromosome(MT_numGenes);
+            MT_child2       = new Chromosome(MT_numGenes);
+            Random rnum     = new Random();
+            int crossPoint  = rnum.nextInt(MT_numGenes);
+            int crossPoint2  = rnum.nextInt(MT_numGenes);
+
+            //switch so 1 is < 2
+            if(crossPoint > crossPoint2){
+            	int temp = crossPoint2;
+            	crossPoint2 = crossPoint;
+            	crossPoint = temp;
+            }
+            
+            //red father, blue mother
+            //left side
+            for (int i = 0; i < crossPoint; i++)
+                {
+                    MT_child1.SetGene(i,MT_father.GetGene(i));
+                    MT_child2.SetGene(i,MT_mother.GetGene(i));
+                }
+    
+            //middle
+            for (int i = crossPoint; i < crossPoint2; i++)
+                {
+                    MT_child1.SetGene(i, MT_mother.GetGene(i));
+                    MT_child2.SetGene(i, MT_father.GetGene(i));
+                }
+            
+            //right side
+            for (int i = crossPoint2; i < MT_numGenes; i++)
+                {
+                    MT_child1.SetGene(i, MT_father.GetGene(i));
+                    MT_child2.SetGene(i, MT_mother.GetGene(i));
+                }
+                
+            population.add(MT_posChild1,MT_child1);
+            population.add(MT_posChild2,MT_child2);
+            
+            MT_posChild1    = MT_posChild1 + 2;
+            MT_posChild2    = MT_posChild2 + 2;
+            MT_posFather    = MT_posFather + 2;
+            MT_posMother    = MT_posMother + 2;
+        }
+        return population;
+    }
+ 
+ //tournament Pairing
+ public ArrayList<Chromosome> DoubleCrossover(ArrayList<Chromosome> population, int numPairs, ArrayList<Integer> pairs_tour)
+ {
+     for (int j = 0; j < numPairs; j++)
+     {
+         MT_father       =  population.get(pairs_tour.get(MT_posFather)); //get top of tournament pairs
+         MT_mother       =  population.get(pairs_tour.get(MT_posMother));
+         
+         MT_child1       = new Chromosome(MT_numGenes);
+         MT_child2       = new Chromosome(MT_numGenes);
+         Random rnum     = new Random();
+         int crossPoint  = rnum.nextInt(MT_numGenes);
+         int crossPoint2  = rnum.nextInt(MT_numGenes);
+
+         //switch so 1 is < 2
+         if(crossPoint > crossPoint2){
+         	int temp = crossPoint2;
+         	crossPoint2 = crossPoint;
+         	crossPoint = temp;
+         }
+         
+         //red father, blue mother
+         //left side
+         for (int i = 0; i < crossPoint; i++)
+             {
+                 MT_child1.SetGene(i,MT_father.GetGene(i));
+                 MT_child2.SetGene(i,MT_mother.GetGene(i));
+             }
+ 
+         //middle
+         for (int i = crossPoint; i < crossPoint2; i++)
+             {
+                 MT_child1.SetGene(i, MT_mother.GetGene(i));
+                 MT_child2.SetGene(i, MT_father.GetGene(i));
+             }
+         
+         //right side
+         for (int i = crossPoint2; i < MT_numGenes; i++)
+             {
+                 MT_child1.SetGene(i, MT_father.GetGene(i));
+                 MT_child2.SetGene(i, MT_mother.GetGene(i));
+             }
+             
+         population.add(MT_posChild1,MT_child1);
+         population.add(MT_posChild2,MT_child2);
+         
+         MT_posChild1    = MT_posChild1 + 2;
+         MT_posChild2    = MT_posChild2 + 2;
+         MT_posFather    = MT_posFather + 2;
+         MT_posMother    = MT_posMother + 2;
+     }
+     return population;
+ }
  }

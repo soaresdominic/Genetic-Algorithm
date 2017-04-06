@@ -7,7 +7,7 @@ public class TSP {
 	
     int[][] matrix = new int[8][8];
 	
-	//construtor
+	//constructor
 	public TSP() throws FileNotFoundException{
 		matrix = createMatrix();
 	}
@@ -33,7 +33,7 @@ public class TSP {
 		return matrix;
 	}
 	
-	public void setMatrix(){
-		
+	public void setMatrix(int[][] m){
+		matrix = m;
 	}
 }

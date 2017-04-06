@@ -145,17 +145,25 @@ public abstract class GA extends Object
  protected abstract void ComputeCost();
 
  //In earlier versions (as on ada) this is in WordGuess and is an abstract method here 
+ //configured for double and tournament pairing currently
  protected void Evolve()
     {
         int iterationCt = 0;
         Pair pairs      = new Pair(GA_pop);
+        pairs.TournamentPair(pairs.getPr_pop());
+        ArrayList<Integer> pairs_tour = pairs.getPR_pop_tour();
+        
         int numPairs    = pairs.SimplePair();
+        
         boolean found   = false;
 
         while (iterationCt < GA_numIterations)
             {
                 Mate mate = new Mate(GA_pop,GA_numGenes,GA_numChromes);
-                GA_pop = mate.Crossover(GA_pop,numPairs);
+                //GA_pop = mate.Crossover(GA_pop,numPairs);
+                //GA_pop = mate.DoubleCrossover(GA_pop,numPairs);
+                //GA_pop = mate.Crossover(GA_pop,numPairs,pairs_tour);  //overload for tournament pairing
+                GA_pop = mate.DoubleCrossover(GA_pop,numPairs,pairs_tour);  //overload for tournament pairing
                 Mutate();
                 
                 ComputeCost();
