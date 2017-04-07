@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.FileNotFoundException;
 import java.lang.*;
 
 
@@ -39,13 +40,28 @@ public class WordGuess extends GA
 
  protected void ComputeCost()
     {
+	 	TSP tsp = null;
+	 	
+	 	// Create a new TSP to access matrix of costs
+		try {
+			tsp = new TSP();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	 	
         for (int i = 0; i < GA_pop.size(); i++)
         {
             int cost = 0;
             Chromosome chrom = GA_pop.remove(i);
-            for (int j = 0; j < GA_numGenes; j++)
-                if (chrom.GetGene(j) != WG_target.charAt(j))
-                    cost++;
+            int[][] matrix = tsp.getMatrix();
+            for (int j = 0; j < chrom.GetNumGenes() - 1; j++) {
+            	char gene1 = chrom.GetGene(j);
+            	char gene2 = chrom.GetGene(j+1);
+            	int index1 = (int)(gene1 - 'a'); // subtract to get numerical value
+            	int index2 = (int)(gene2 - 'a');
+            	cost += matrix[index1][index2];
+            	
+            }
             chrom.SetCost(cost);
             GA_pop.add(i,chrom);
         }

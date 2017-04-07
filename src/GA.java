@@ -135,7 +135,8 @@ public abstract class GA extends Object
             
             for (int j = 0; j < GA_numGenes; j++)
                 { 
-                    letter = (char) (rnum.nextInt(26) + 97); //97 is the value 'a'  
+            		// need first 8 letters - a through h
+                    letter = (char) (rnum.nextInt(8) + 97); //97 is the value 'a' 
                     Chrom.SetGene(j,letter);
                 }
             Chrom.SetCost(0);
