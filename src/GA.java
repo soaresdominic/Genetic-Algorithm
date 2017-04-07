@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.lang.*;
 import java.util.*;
 
@@ -10,6 +11,18 @@ public abstract class GA extends Object
  protected int     GA_numIterations;
  protected ArrayList<Chromosome> GA_pop;
  protected String GA_target;
+ 
+ public GA(String ParamFile)
+ {
+     GetParams GP        = new GetParams(ParamFile);
+     Parameters P        = GP.GetParameters();
+     GA_numChromesInit   = P.GetNumChromesI();
+     GA_numChromes       = P.GetNumChromes();
+     GA_numGenes         = P.GetNumGenes();
+     GA_mutFact          = P.GetMutFact();
+     GA_numIterations    = P.GetNumIterations();
+     GA_pop              = new ArrayList<Chromosome>();
+     }
 
  public GA(String ParamFile, String target)
     {
@@ -82,8 +95,8 @@ public abstract class GA extends Object
         int result;
         public int compare(Chromosome obj1, Chromosome obj2)
         {
-            result = new Integer( obj1.GetCost() ).compareTo(
-            new Integer( obj2.GetCost() ) );
+            result = new Integer( ComputeCost(obj1) ).compareTo(
+            new Integer( ComputeCost(obj1) ) );
             return result;
         }
     }
@@ -158,13 +171,14 @@ public abstract class GA extends Object
         
         boolean found   = false;
 
+        int tempCost = 0;
         while (iterationCt < GA_numIterations)
             {
                 Mate mate = new Mate(GA_pop,GA_numGenes,GA_numChromes);
-                //GA_pop = mate.Crossover(GA_pop,numPairs);
+                GA_pop = mate.Crossover(GA_pop,numPairs);
                 //GA_pop = mate.DoubleCrossover(GA_pop,numPairs);
                 //GA_pop = mate.Crossover(GA_pop,numPairs,pairs_tour);  //overload for tournament pairing
-                GA_pop = mate.DoubleCrossover(GA_pop,numPairs,pairs_tour);  //overload for tournament pairing
+                //GA_pop = mate.DoubleCrossover(GA_pop,numPairs,pairs_tour);  //overload for tournament pairing
                 Mutate();
                 
                 ComputeCost();
@@ -175,11 +189,37 @@ public abstract class GA extends Object
                 
                 DisplayBest(iterationCt); //print it
 
-                if (chrome.Equals(GA_target)) //if it's equal to the target, stop
-                    break;
+                int newCost = ComputeCost(chrome);
+                System.out.println(newCost);
+                //if ((tempCost - ComputeCost(chrome)) > 100) //if it's equal to the target, stop
+                    //break;
                 ++iterationCt;
             }
     }
+ 
+ 
+ 
+ protected int ComputeCost(Chromosome currentIt)
+ {
+	 	TSP tsp = null;
+		try {
+			tsp = new TSP();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	 	int cost = 0;
+	 	
+         int[][] matrix = tsp.getMatrix();
+         for (int j = 0; j < currentIt.GetNumGenes() - 1; j++) {
+         	char gene1 = currentIt.GetGene(j);
+         	char gene2 = currentIt.GetGene(j+1);
+         	int index1 = (int)(gene1 - 'a'); // subtract to get numerical value
+         	int index2 = (int)(gene2 - 'a');
+         	cost += matrix[index1][index2];
+         }
+     return cost;
+ }
 
 }
 

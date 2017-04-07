@@ -6,6 +6,14 @@ import java.lang.*;
 public class WordGuess extends GA
 {
  private String WG_target;
+ 
+ public WordGuess(String fileName)
+ {
+     super(fileName);
+     GA_numGenes = 8;
+
+     InitPop();
+ }
 
  public WordGuess(String fileName, String target)
     {
@@ -53,12 +61,17 @@ public class WordGuess extends GA
         {
             int cost = 0;
             Chromosome chrom = GA_pop.remove(i);
+            //chrom.DisplayGenes();
             int[][] matrix = tsp.getMatrix();
             for (int j = 0; j < chrom.GetNumGenes() - 1; j++) {
             	char gene1 = chrom.GetGene(j);
             	char gene2 = chrom.GetGene(j+1);
+            	//System.out.println(gene1);
+            	//System.out.println(gene2);
             	int index1 = (int)(gene1 - 'a'); // subtract to get numerical value
             	int index2 = (int)(gene2 - 'a');
+            	//System.out.println(index1);
+            	//System.out.println(index2);
             	cost += matrix[index1][index2];
             	
             }
@@ -66,6 +79,8 @@ public class WordGuess extends GA
             GA_pop.add(i,chrom);
         }
     }
+ 
+
  //in earlier versions (as on ada) Evolve() from GA is here
  }
 
