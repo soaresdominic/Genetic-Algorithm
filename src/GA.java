@@ -95,8 +95,14 @@ public abstract class GA extends Object
         int result;
         public int compare(Chromosome obj1, Chromosome obj2)
         {
-            result = new Integer( ComputeCost(obj1) ).compareTo(
-            new Integer( ComputeCost(obj1) ) );
+        	int cost1 = ComputeCost(obj1);
+        	int cost2 = ComputeCost(obj2);
+        	
+        	//System.out.println(cost1);
+        	//System.out.println(cost2);
+        	
+            result = new Integer( cost1 ).compareTo(
+            new Integer( cost2 ) );
             return result;
         }
     }
@@ -127,6 +133,9 @@ public abstract class GA extends Object
             int geneMut = rnum.nextInt(GA_numGenes); //pos of mutated gene
             
             char newGene = (char) (rnum.nextInt(26) + 97); //97 is the value 'a' 
+            if((int)newGene < 97 || (int)newGene > 104){
+            	newGene = 'a';
+            }
             
             Chromosome newChromosome = GA_pop.remove(chromMut); //get chromosome
             
@@ -142,14 +151,19 @@ public abstract class GA extends Object
     
         Random rnum = new Random();
         char letter;
-        for (int index = 0; index < GA_numChromesInit; index++)
+        for (int index = 0; index < GA_numChromesInit; index++)  //set to 128
         {
             Chromosome Chrom = new Chromosome(GA_numGenes);
             
             for (int j = 0; j < GA_numGenes; j++)
                 { 
             		// need first 8 letters - a through h
-                    letter = (char) (rnum.nextInt(8) + 97); //97 is the value 'a' 
+            		int temp = rnum.nextInt(8) + 97;
+            		if(temp < 97 || temp > 104){
+            			//System.out.print("error");
+            			temp = 97;
+            		}
+                    letter = (char) (temp); //97 is the value 'a' 
                     Chrom.SetGene(j,letter);
                 }
             Chrom.SetCost(0);
@@ -172,6 +186,7 @@ public abstract class GA extends Object
         boolean found   = false;
 
         int tempCost = 0;
+
         while (iterationCt < GA_numIterations)
             {
                 Mate mate = new Mate(GA_pop,GA_numGenes,GA_numChromes);
@@ -181,7 +196,7 @@ public abstract class GA extends Object
                 //GA_pop = mate.DoubleCrossover(GA_pop,numPairs,pairs_tour);  //overload for tournament pairing
                 Mutate();
                 
-                ComputeCost();
+                //ComputeCost();
                 
                 SortPop();
                 
@@ -189,8 +204,8 @@ public abstract class GA extends Object
                 
                 DisplayBest(iterationCt); //print it
 
-                int newCost = ComputeCost(chrome);
-                System.out.println(newCost);
+                //int newCost = ComputeCost(chrome);
+                //System.out.println(newCost);
                 //if ((tempCost - ComputeCost(chrome)) > 100) //if it's equal to the target, stop
                     //break;
                 ++iterationCt;
@@ -208,16 +223,29 @@ public abstract class GA extends Object
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	 	int cost = 0;
+	 		int cost = 0;
 	 	
          int[][] matrix = tsp.getMatrix();
+         //System.out.println(currentIt.GetNumGenes());
          for (int j = 0; j < currentIt.GetNumGenes() - 1; j++) {
          	char gene1 = currentIt.GetGene(j);
          	char gene2 = currentIt.GetGene(j+1);
          	int index1 = (int)(gene1 - 'a'); // subtract to get numerical value
          	int index2 = (int)(gene2 - 'a');
+         	//System.out.print(matrix.length);
+         	//System.out.println(matrix[matrix.length-1].length);
+         	if(index1 < 0 || index1 > 7){
+         		System.out.println("i1 error");
+         	}
+         	if(index2 < 0 || index2 > 7){
+         		System.out.println("i2 error");
+         		System.out.println(gene2);
+         	}
+         	
          	cost += matrix[index1][index2];
+         	
          }
+         //System.out.println(cost);
      return cost;
  }
 

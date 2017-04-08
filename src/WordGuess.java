@@ -33,7 +33,7 @@ public class WordGuess extends GA
 
  public void InitPop()
     {
-        super.InitPop();
+        super.InitPop();   //add chromosomes to population
         ComputeCost();
         SortPop();
         TidyUp();
