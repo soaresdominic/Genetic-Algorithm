@@ -82,7 +82,7 @@ public abstract class GA extends Object
         {
             chrome.DisplayGenes();
             System.out.print("\t\t\t");
-            System.out.print(chrome.GetCost());
+            System.out.print(ComputeCost(chrome));
         }
 
  protected void SortPop()
@@ -151,9 +151,11 @@ public abstract class GA extends Object
     
         Random rnum = new Random();
         char letter;
+        
         for (int index = 0; index < GA_numChromesInit; index++)  //set to 128
         {
             Chromosome Chrom = new Chromosome(GA_numGenes);
+            ArrayList<Character> curr = new ArrayList<Character>();         
             
             for (int j = 0; j < GA_numGenes; j++)
                 { 
@@ -163,7 +165,15 @@ public abstract class GA extends Object
             			//System.out.print("error");
             			temp = 97;
             		}
+            		
+            		int it = 0;
+            		while(curr.contains((char)temp)){
+            			temp = 97;
+            			temp += it;
+            			it+=1;
+            		}
                     letter = (char) (temp); //97 is the value 'a' 
+                    curr.add(letter);
                     Chrom.SetGene(j,letter);
                 }
             Chrom.SetCost(0);
