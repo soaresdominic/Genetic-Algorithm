@@ -1,4 +1,6 @@
+
 import java.io.FileNotFoundException;
+
 import java.lang.*;
 import java.util.*;
 
@@ -130,16 +132,21 @@ public abstract class GA extends Object
             
             int chromMut = 1 + (rnum.nextInt(GA_numChromes - 1));
             
-            int geneMut = rnum.nextInt(GA_numGenes); //pos of mutated gene
+            // Method to ensure no duplicates:
+            // Randomly choose 2 genes in the chromosome and swap them
+            int geneMut1 = rnum.nextInt(GA_numGenes); //pos of first mutated gene
+            int geneMut2 = rnum.nextInt(GA_numGenes); //pos of second mutated gene
             
-            char newGene = (char) (rnum.nextInt(26) + 97); //97 is the value 'a' 
-            if((int)newGene < 97 || (int)newGene > 104){
-            	newGene = 'a';
+            while(geneMut1 == geneMut2) {
+            	geneMut2 = rnum.nextInt(GA_numGenes);
             }
             
             Chromosome newChromosome = GA_pop.remove(chromMut); //get chromosome
+            char gene1 = newChromosome.GetGene(geneMut1);
+            char gene2 = newChromosome.GetGene(geneMut2);
             
-            newChromosome.SetGene(geneMut,newGene);//mutate it
+            newChromosome.SetGene(geneMut1, gene2);//mutate it by swapping genes
+            newChromosome.SetGene(geneMut2, gene1);
             
             GA_pop.add(newChromosome); //add mutated chromosome at the end
         }

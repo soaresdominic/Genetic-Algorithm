@@ -48,8 +48,10 @@ public class Mate
                     MT_child2.SetGene(i, MT_father.GetGene(i));
                 }
                 
-            population.add(MT_posChild1,MT_child1);
-            population.add(MT_posChild2,MT_child2);
+            //population.add(MT_posChild1,MT_child1);
+            //population.add(MT_posChild2,MT_child2);
+            ArrayList<Chromosome> newPopulation = PMX(population);
+            population = newPopulation;
             
             MT_posChild1    = MT_posChild1 + 2;
             MT_posChild2    = MT_posChild2 + 2;
@@ -58,6 +60,71 @@ public class Mate
         }
         return population;
     }
+ 
+ // Partially Matched Crossover Algorithm - ensures no duplicates
+ public ArrayList<Chromosome> PMX(ArrayList<Chromosome> population)
+ {
+	 // Generate random crosspoints
+	 Random rnum     = new Random();
+     int crossPoint  = rnum.nextInt(MT_numGenes);
+     int crossPoint2  = rnum.nextInt(MT_numGenes);
+
+     //switch so 1 is < 2
+     if(crossPoint > crossPoint2){
+     	int temp = crossPoint2;
+     	crossPoint2 = crossPoint;
+     	crossPoint = temp;
+     }
+     
+     // First switch parent genes between the crosspoints
+     for(int i = crossPoint; i <= crossPoint2; i++) {
+    	 MT_child1.SetGene(i, MT_mother.GetGene(i));
+    	 MT_child2.SetGene(i, MT_father.GetGene(i));
+     }
+     
+     // Arrays with values matching up to the number of instances of each gene
+     int[] duplicates1 = new int[MT_numGenes];
+     int[] duplicates2 = new int[MT_numGenes];
+     Arrays.fill(duplicates1, 0);
+     Arrays.fill(duplicates2, 0);
+     for(int i = 0; i < MT_numGenes; i++) {
+    	 duplicates1[(int)(MT_child1.GetGene(i) - 'a')] += 1;
+    	 duplicates2[(int)(MT_child2.GetGene(i) - 'a')] += 1;
+     }
+     
+     for(int i = 0; i < MT_numGenes; i++) {
+    	 // Leaves values in between crosspoints as is
+    	 if (i < crossPoint || i > crossPoint2) {
+    		 char gene1 = MT_child1.GetGene(i);
+    		 if(duplicates1[(int)(gene1 - 'a')] > 1) {
+    			 // Gene needs to be swapped with child2
+    			 for(int j = 0; j < MT_numGenes; j++) {
+    				 if (j < crossPoint || j > crossPoint2) {
+    					 char gene2 = MT_child2.GetGene(j);
+    					 if(duplicates2[(int)(gene2 - 'a')] > 1) {
+    						 // Swap the genes
+    						 MT_child1.SetGene(i, gene2);
+    						 MT_child2.SetGene(j, gene1);
+    						 // Update duplicate arrays
+    						 duplicates1[(int)(gene1 - 'a')] -= 1;
+    						 duplicates2[(int)(gene2 - 'a')] -= 1;
+    						 break;
+    					 }
+    				 }
+    			 }	 
+    		 }
+    	 }
+     }
+     /*System.out.println("\nchild 1:");
+     MT_child1.DisplayGenes();
+     System.out.println("\nchild 2:");
+     MT_child2.DisplayGenes();
+     System.out.println("\n");*/
+     population.add(MT_posChild1,MT_child1);
+     population.add(MT_posChild2,MT_child2); 
+	 
+	 return population;
+ }
  
  
  //tournament Pairing
