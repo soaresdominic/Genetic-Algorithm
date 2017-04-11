@@ -210,9 +210,9 @@ public abstract class GA extends Object
             {
                 Mate mate = new Mate(GA_pop,GA_numGenes,GA_numChromes);
                 //GA_pop = mate.Crossover(GA_pop,numPairs);
-                GA_pop = mate.DoubleCrossover(GA_pop,numPairs);
+                //GA_pop = mate.DoubleCrossover(GA_pop,numPairs);
                 //GA_pop = mate.Crossover(GA_pop,numPairs,pairs_tour);  //overload for tournament pairing
-                //GA_pop = mate.DoubleCrossover(GA_pop,numPairs,pairs_tour);  //overload for tournament pairing
+                GA_pop = mate.DoubleCrossover(GA_pop,numPairs,pairs_tour);  //overload for tournament pairing
                 Mutate();
                 
                 //ComputeCost();

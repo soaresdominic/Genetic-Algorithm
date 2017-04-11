@@ -48,8 +48,6 @@ public class Mate
                     MT_child2.SetGene(i, MT_father.GetGene(i));
                 }
                 
-            //population.add(MT_posChild1,MT_child1);
-            //population.add(MT_posChild2,MT_child2);
             ArrayList<Chromosome> newPopulation = PMX(population);
             population = newPopulation;
             
@@ -115,11 +113,6 @@ public class Mate
     		 }
     	 }
      }
-     /*System.out.println("\nchild 1:");
-     MT_child1.DisplayGenes();
-     System.out.println("\nchild 2:");
-     MT_child2.DisplayGenes();
-     System.out.println("\n");*/
      population.add(MT_posChild1,MT_child1);
      population.add(MT_posChild2,MT_child2); 
 	 
@@ -154,8 +147,8 @@ public class Mate
                     MT_child2.SetGene(i, MT_father.GetGene(i));
                 }
                 
-            population.add(MT_posChild1,MT_child1);
-            population.add(MT_posChild2,MT_child2);
+            ArrayList<Chromosome> newPopulation = PMX(population);
+            population = newPopulation;
             
             MT_posChild1    = MT_posChild1 + 2;
             MT_posChild2    = MT_posChild2 + 2;
@@ -209,8 +202,8 @@ public class Mate
                     MT_child2.SetGene(i, MT_mother.GetGene(i));
                 }
                 
-            population.add(MT_posChild1,MT_child1);
-            population.add(MT_posChild2,MT_child2);
+            ArrayList<Chromosome> newPopulation = PMX(population);
+            population = newPopulation;
             
             MT_posChild1    = MT_posChild1 + 2;
             MT_posChild2    = MT_posChild2 + 2;
@@ -263,8 +256,8 @@ public class Mate
                  MT_child2.SetGene(i, MT_mother.GetGene(i));
              }
              
-         population.add(MT_posChild1,MT_child1);
-         population.add(MT_posChild2,MT_child2);
+         ArrayList<Chromosome> newPopulation = PMX(population);
+         population = newPopulation;
          
          MT_posChild1    = MT_posChild1 + 2;
          MT_posChild2    = MT_posChild2 + 2;

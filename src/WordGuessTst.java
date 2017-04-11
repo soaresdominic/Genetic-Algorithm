@@ -1,5 +1,6 @@
 /* 
  * CPSC 427 02
+ * Assignment #11: TSP/Genetic Algorithm
  * Team Leader: Trevor Farthing (tfarthing)
  * Developer 1: Dominic Soares
  * Developer 2: Kevin Do
