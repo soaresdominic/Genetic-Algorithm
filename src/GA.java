@@ -13,6 +13,7 @@ public abstract class GA extends Object
  protected int     GA_numIterations;
  protected ArrayList<Chromosome> GA_pop;
  protected String GA_target;
+ protected ArrayList<Integer> currCost;
  
  public GA(String ParamFile)
  {
@@ -24,6 +25,7 @@ public abstract class GA extends Object
      GA_mutFact          = P.GetMutFact();
      GA_numIterations    = P.GetNumIterations();
      GA_pop              = new ArrayList<Chromosome>();
+     currCost 			 = new ArrayList<Integer>();
      }
 
  public GA(String ParamFile, String target)
@@ -207,8 +209,8 @@ public abstract class GA extends Object
         while (iterationCt < GA_numIterations)
             {
                 Mate mate = new Mate(GA_pop,GA_numGenes,GA_numChromes);
-                GA_pop = mate.Crossover(GA_pop,numPairs);
-                //GA_pop = mate.DoubleCrossover(GA_pop,numPairs);
+                //GA_pop = mate.Crossover(GA_pop,numPairs);
+                GA_pop = mate.DoubleCrossover(GA_pop,numPairs);
                 //GA_pop = mate.Crossover(GA_pop,numPairs,pairs_tour);  //overload for tournament pairing
                 //GA_pop = mate.DoubleCrossover(GA_pop,numPairs,pairs_tour);  //overload for tournament pairing
                 Mutate();
@@ -220,11 +222,16 @@ public abstract class GA extends Object
                 Chromosome chrome = GA_pop.get(0); //get the best guess
                 
                 DisplayBest(iterationCt); //print it
+                currCost.add(ComputeCost(chrome));
 
-                //int newCost = ComputeCost(chrome);
-                //System.out.println(newCost);
-                //if ((tempCost - ComputeCost(chrome)) > 100) //if it's equal to the target, stop
-                    //break;
+                //if newest is equal to the one 6 iterations ago, break
+                if(currCost.size() > 11)
+                {
+	                if (currCost.get(currCost.size() - 11).equals(currCost.get(currCost.size()-1)))
+	                {
+	                    break;
+	                }
+                }
                 ++iterationCt;
             }
     }
