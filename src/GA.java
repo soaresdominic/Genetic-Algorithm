@@ -224,13 +224,17 @@ public abstract class GA extends Object
                 DisplayBest(iterationCt); //print it
                 currCost.add(ComputeCost(chrome));
 
-                //if newest is equal to the one 6 iterations ago, break
-                if(currCost.size() > 11)
+                //if newest is equal to the one 100 iterations ago, break
+                if(currCost.size() > 100)
                 {
-	                if (currCost.get(currCost.size() - 11).equals(currCost.get(currCost.size()-1)))
+	                if (currCost.get(currCost.size() - 100).equals(currCost.get(currCost.size()-1)))
 	                {
+			    System.out.println("Cost has not changed in 100 iterations");
+			    System.out.println("Optimial solution is most likely found");
+			    chrome.DisplayGenes();
 	                    break;
 	                }
+
                 }
                 ++iterationCt;
             }
