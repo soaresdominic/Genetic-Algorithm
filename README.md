@@ -6,6 +6,8 @@ The distances between the points a->h are located in data.txt as a matrix.
 
 The algorithm uses top-down and tournament pairing matched with single-point and	double-point crossover mating.
 
+### Youtube Video Demo
+[![Genetic Algorithm](https://img.youtube.com/vi/tP_hzORpP_U/maxresdefault.jpg)](https://youtu.be/tP_hzORpP_U "Genetic Algorithm")
 
 ### How-To Run
 To Compile (either Windows or Unix):
