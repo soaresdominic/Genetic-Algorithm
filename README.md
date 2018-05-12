@@ -12,9 +12,8 @@ The algorithm uses top-down and tournament pairing matched with single-point and
 ### How-To Run
 To Compile (either Windows or Unix):
 1. Copy all eight files to the same directory
-2. Be sure that JDK 7 is installed and accessible from the directory where the WordGuess files are found
-3. Type: ```javac SetParams.java```
-4. Type: ```javac WordGuessTst.java```
+2. Be sure that JDK 7 is installed and accessible from the directory where the Genetic-Algorithm files are found
+3. Type: ```javac *.java```
 
 To create the parameter file.
 1. Decide upon a parameter set, for example:
@@ -30,8 +29,8 @@ To create the parameter file.
    --1000 maximum number of generations
 
    
-2. Type: ```java SetParams params.dat 128 64 5 .1 1000```
+2. Type: ```java SetParams params.dat 128 64 8 .1 1000```
 
 To run WordGuess:
-1. Type: ```java WordGuessTst [parameter_file]```
-    For example, java WordGuessTst params.dat
+1. Type: ```java Run [parameter_file]```
+    For example, java Run params.dat
